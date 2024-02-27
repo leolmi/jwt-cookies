@@ -1,0 +1,61 @@
+<div class="home" fxLayout="column">
+
+  <div class="toolbar" fxLayout="row" fxLayoutAlign="start center">
+    <h2>Jwt - Cookies</h2>
+    <div fxFlex></div>
+    <button mat-raised-button
+            [disabled]="isLogged$|async"
+            (click)="login()">login</button>
+    <div space></div>
+    <button mat-raised-button
+            [disabled]="(isLogged$|async)===false"
+            (click)="logout()">logout</button>
+    <div space></div>
+    <button mat-raised-button
+            [disabled]="(isLogged$|async)===false"
+            (click)="changePassword()">change password</button>
+  </div>
+  <div class="home-body" fxFlex>
+
+    <div class="toolbar body-toolbar" fxLayout="row">
+      <button mat-raised-button
+              (click)="test()">Metodo pubblico (sempre accessibile)</button>
+      <div space></div>
+      <button mat-raised-button
+              (click)="test(false)">Metodo privato (solo se autenticato)</button>
+    </div>
+
+    @if (isLogged$|async) {
+      <div class="home-body-container">
+        <div class="content">
+          @for (msg of messages$|async; track msg) {
+            <div class="log-message" [ngClass]="'message-type-'+msg.type">{{msg.text}}</div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="login-form">
+        <mat-form-field appearance="outline">
+          <mat-label>email</mat-label>
+          <input matInput type='email'
+                 name='email'
+                 [value]='(credentials$|async)?.email||""'
+                 (input)='change($event)'>
+          <mat-icon matSuffix>alternate_email</mat-icon>
+        </mat-form-field>
+        <div space></div>
+        <mat-form-field appearance="outline">
+          <mat-label>password</mat-label>
+          <input matInput [type]="(showPassword$|async) ? 'text' : 'password'"
+                 name='password'
+                 [value]='(credentials$|async)?.password||""'
+                 (keydown.enter)="login()"
+                 (input)='change($event)'>
+          <mat-icon matSuffix
+                    class='clickable'
+                    (click)='toggleVisibility()'>{{(showPassword$|async)?'visibility_off':'visibility'}}</mat-icon>
+        </mat-form-field>
+      </div>
+    }
+  </div>
+</div>

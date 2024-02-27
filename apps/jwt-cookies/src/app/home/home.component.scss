@@ -1,0 +1,27 @@
+.home {
+  height: 100%;
+  width: 100%;
+}
+
+.toolbar {
+  height: 60px;
+  padding: 0 16px;
+}
+
+.home-body {
+  padding: 48px;
+
+  .home-body-container {
+    overflow: auto;
+    height: 100%;
+    position: relative;
+
+    .content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+}
+
